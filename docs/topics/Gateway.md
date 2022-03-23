@@ -59,7 +59,7 @@ When initially creating and handshaking connections to the Gateway, a user can c
 
 While using ETF there are some additional constraints to note:
 
-- Snowflake IDs are transmitted as 64-bit integers over ETF.
+- Snowflake IDs are transmitted as 64-bit integers or strings over ETF.
 - The client must not send compressed messages to the server.
 - Payloads must use string keys, atom keys will lead to a 4002 decode error.
 
@@ -835,7 +835,9 @@ Sent when a channel relevant to the current user is deleted. The inner payload i
 
 #### Thread Create
 
-Sent when a thread is created, relevant to the current user, or when the current user is added to a thread. The inner payload is a [channel](#DOCS_RESOURCES_CHANNEL/channel-object) object.  When being added to an existing private thread, includes a [thread member](#DOCS_RESOURCES_CHANNEL/thread-member-object) object.
+Sent when a thread is created, relevant to the current user, or when the current user is added to a thread. The inner payload is a [channel](#DOCS_RESOURCES_CHANNEL/channel-object) object.
+- When a thread is created, includes an additional `newly_created` boolean field.
+- When being added to an existing private thread, includes a [thread member](#DOCS_RESOURCES_CHANNEL/thread-member-object) object.
 
 #### Thread Update
 
@@ -1229,7 +1231,7 @@ Sent when a user adds a reaction to a message.
 | message_id | snowflake                                                    | the id of the message                                                                                           |
 | guild_id?  | snowflake                                                    | the id of the guild                                                                                             |
 | member?    | [member](#DOCS_RESOURCES_GUILD/guild-member-object) object   | the member who reacted if this happened in a guild                                                              |
-| emoji      | a partial [emoji](#DOCS_RESOURCES_EMOJI/emoji-object) object | the emoji used to react - [example](#DOCS_RESOURCES_EMOJI/emoji-object-gateway-reaction-standard-emoji-example) |
+| emoji      | a partial [emoji](#DOCS_RESOURCES_EMOJI/emoji-object) object | the emoji used to react - [example](#DOCS_RESOURCES_EMOJI/emoji-object-standard-emoji-example)                  |
 
 #### Message Reaction Remove
 
@@ -1243,7 +1245,7 @@ Sent when a user removes a reaction from a message.
 | channel_id | snowflake                                                    | the id of the channel                                                                                           |
 | message_id | snowflake                                                    | the id of the message                                                                                           |
 | guild_id?  | snowflake                                                    | the id of the guild                                                                                             |
-| emoji      | a partial [emoji](#DOCS_RESOURCES_EMOJI/emoji-object) object | the emoji used to react - [example](#DOCS_RESOURCES_EMOJI/emoji-object-gateway-reaction-standard-emoji-example) |
+| emoji      | a partial [emoji](#DOCS_RESOURCES_EMOJI/emoji-object) object | the emoji used to react - [example](#DOCS_RESOURCES_EMOJI/emoji-object-standard-emoji-example)                  |
 
 #### Message Reaction Remove All
 
@@ -1375,6 +1377,8 @@ Active sessions are indicated with an "online", "idle", or "dnd" string per plat
 ###### Activity Asset Image
 
 Activity asset images are arbitrary strings which usually contain snowflake IDs or prefixed image IDs. Treat data within this field carefully, as it is user-specifiable and not sanitized.
+
+To use an external image via media proxy, specify the URL as the field's value when sending. You will only receive the `mp:` prefix via the gateway.
 
 | Type              | Format                   | Image URL                                                                  |
 |-------------------|--------------------------|----------------------------------------------------------------------------|

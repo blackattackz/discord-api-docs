@@ -319,7 +319,7 @@ Discord uses ids and hashes to render images in the client. These hashes can be 
 | Sticker Pack Banner         | app-assets/710982414301790216/store/[sticker_pack_banner_asset_id](#DOCS_RESOURCES_STICKER/sticker-pack-object).png                                                                                                                                               | PNG, JPEG, WebP      |
 | Team Icon                   | team-icons/[team_id](#DOCS_TOPICS_TEAMS/data-models-team-object)/[team_icon](#DOCS_TOPICS_TEAMS/data-models-team-object).png                                                                                                                                      | PNG, JPEG, WebP      |
 | Sticker                     | stickers/[sticker_id](#DOCS_RESOURCES_STICKER/sticker-object).png \*\*\* \*\*\*\*                                                                                                                                                                                 | PNG, Lottie          |
-| Role Icon                   | role-icons/[role_id](#DOCS_TOPICS_PERMISSIONS/role-object)/[role_icon](#DOCS_TOPICS_PERMISSIONS/role-object).png \*                                                                                                                                               | PNG, JPEG, WebP      |
+| Role Icon                   | role-icons/[role_id](#DOCS_TOPICS_PERMISSIONS/role-object)/[role_icon](#DOCS_TOPICS_PERMISSIONS/role-object).png                                                                                                                                                  | PNG, JPEG, WebP      |
 | Guild Scheduled Event Cover | guild-events/[scheduled_event_id](#DOCS_RESOURCES_GUILD_SCHEDULED_EVENT/guild-scheduled-event-object)/[scheduled_event_cover_image](#DOCS_RESOURCES_GUILD_SCHEDULED_EVENT/guild-scheduled-event-object).png                                                       | PNG, JPEG, WebP      |
 
 \* In the case of endpoints that support GIFs, the hash will begin with `a_` if it is available in GIF format. (example: `a_1269e74af4df7417b13759eae50c83dc`)
@@ -442,35 +442,35 @@ For example:
 
 ## Locales
 
-| Locale | Language Name           |
-| ------ | ----------------------- |
-| en-US  | English (United States) |
-| en-GB  | English (Great Britain) |
-| bg     | Bulgarian               |
-| zh-CN  | Chinese (China)         |
-| zh-TW  | Chinese (Taiwan)        |
-| hr     | Croatian                |
-| cs     | Czech                   |
-| da     | Danish                  |
-| nl     | Dutch                   |
-| fi     | Finnish                 |
-| fr     | French                  |
-| de     | German                  |
-| el     | Greek                   |
-| hi     | Hindi                   |
-| hu     | Hungarian               |
-| it     | Italian                 |
-| ja     | Japanese                |
-| ko     | Korean                  |
-| lt     | Lithuanian              |
-| no     | Norwegian               |
-| pl     | Polish                  |
-| pt-BR  | Portuguese (Brazil)     |
-| ro     | Romanian                |
-| ru     | Russian                 |
-| es-ES  | Spanish (Spain)         |
-| sv-SE  | Swedish                 |
-| th     | Thai                    |
-| tr     | Turkish                 |
-| uk     | Ukrainian               |
-| vi     | Vietnamese              |
+| Locale | Language Name         | Native Name         |
+| ------ | --------------------- | ------------------- |
+| da     | Danish                | Dansk               |
+| de     | German                | Deutsch             |
+| en-GB  | English, UK           | English, UK         |
+| en-US  | English, US           | English, US         |
+| es-ES  | Spanish               | Español             |
+| fr     | French                | Français            |
+| hr     | Croatian              | Hrvatski            |
+| it     | Italian               | Italiano            |
+| lt     | Lithuanian            | Lietuviškai         |
+| hu     | Hungarian             | Magyar              |
+| nl     | Dutch                 | Nederlands          |
+| no     | Norwegian             | Norsk               |
+| pl     | Polish                | Polski              |
+| pt-BR  | Portuguese, Brazilian | Português do Brasil |
+| ro     | Romanian, Romania     | Română              |
+| fi     | Finnish               | Suomi               |
+| sv-SE  | Swedish               | Svenska             |
+| vi     | Vietnamese            | Tiếng Việt          |
+| tr     | Turkish               | Türkçe              |
+| cs     | Czech                 | Čeština             |
+| el     | Greek                 | Ελληνικά            |
+| bg     | Bulgarian             | български           |
+| ru     | Russian               | Pусский             |
+| uk     | Ukrainian             | Українська          |
+| hi     | Hindi                 | हिन्दी              |
+| th     | Thai                  | ไทย                 |
+| zh-CN  | Chinese, China        | 中文                  |
+| ja     | Japanese              | 日本語                 |
+| zh-TW  | Chinese, Taiwan       | 繁體中文                |
+| ko     | Korean                | 한국어                 |

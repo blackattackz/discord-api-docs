@@ -667,6 +667,9 @@ Modify a guild's settings. Requires the `MANAGE_GUILD` permission. Returns the u
 > info
 > This endpoint supports the `X-Audit-Log-Reason` header.
 
+> warn
+> Attempting to add or remove the `COMMUNITY` [guild feature](#DOCS_RESOURCES_GUILD/guild-object-guild-features) requires the `ADMINISTRATOR` permission.
+
 ###### JSON Params
 
 | Field                         | Type                                                                                | Description                                                                                                                                 |
@@ -712,18 +715,20 @@ Create a new [channel](#DOCS_RESOURCES_CHANNEL/channel-object) object for the gu
 
 ###### JSON Params
 
-| Field                 | Type                                                                   | Description                                                                                                                                                                     |
-| --------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name                  | string                                                                 | channel name (1-100 characters)                                                                                                                                                 |
-| type                  | integer                                                                | the [type of channel](#DOCS_RESOURCES_CHANNEL/channel-object-channel-types)                                                                                                     |
-| topic                 | string                                                                 | channel topic (0-1024 characters)                                                                                                                                               |
-| bitrate               | integer                                                                | the bitrate (in bits) of the voice channel (voice only)                                                                                                                         |
-| user_limit            | integer                                                                | the user limit of the voice channel (voice only)                                                                                                                                |
-| rate_limit_per_user   | integer                                                                | amount of seconds a user has to wait before sending another message (0-21600); bots, as well as users with the permission `manage_messages` or `manage_channel`, are unaffected |
-| position              | integer                                                                | sorting position of the channel                                                                                                                                                 |
-| permission_overwrites | array of [overwrite](#DOCS_RESOURCES_CHANNEL/overwrite-object) objects | the channel's permission overwrites                                                                                                                                             |
-| parent_id             | snowflake                                                              | id of the parent category for a channel                                                                                                                                         |
-| nsfw                  | boolean                                                                | whether the channel is nsfw                                                                                                                                                     |
+| Field                   | Type                                                                           | Description                                                                                                                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                    | string                                                                         | channel name (1-100 characters)                                                                                                                                                 |
+| type                    | integer                                                                        | the [type of channel](#DOCS_RESOURCES_CHANNEL/channel-object-channel-types)                                                                                                     |
+| topic                   | string                                                                         | channel topic (0-1024 characters)                                                                                                                                               |
+| bitrate                 | integer                                                                        | the bitrate (in bits) of the voice channel (voice only)                                                                                                                         |
+| user_limit              | integer                                                                        | the user limit of the voice channel (voice only)                                                                                                                                |
+| rate_limit_per_user     | integer                                                                        | amount of seconds a user has to wait before sending another message (0-21600); bots, as well as users with the permission `manage_messages` or `manage_channel`, are unaffected |
+| position                | integer                                                                        | sorting position of the channel                                                                                                                                                 |
+| permission_overwrites\* | array of partial [overwrite](#DOCS_RESOURCES_CHANNEL/overwrite-object) objects | the channel's permission overwrites                                                                                                                                             |
+| parent_id               | snowflake                                                                      | id of the parent category for a channel                                                                                                                                         |
+| nsfw                    | boolean                                                                        | whether the channel is nsfw                                                                                                                                                     |
+
+\* In each overwrite object, the `allow` and `deny` keys can be omitted or set to `null`, which both default to `"0"`.
 
 ## Modify Guild Channel Positions % PATCH /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/channels
 
@@ -831,12 +836,12 @@ Modify attributes of a [guild member](#DOCS_RESOURCES_GUILD/guild-member-object)
 
 | Field                        | Type                | Description                                                                                                                                                                                                                              | Permission       |
 | ---------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| nick                         | string              | value to set user's nickname to                                                                                                                                                                                                          | MANAGE_NICKNAMES |
-| roles                        | array of snowflakes | array of role ids the member is assigned                                                                                                                                                                                                 | MANAGE_ROLES     |
-| mute                         | boolean             | whether the user is muted in voice channels. Will throw a 400 if the user is not in a voice channel                                                                                                                                      | MUTE_MEMBERS     |
-| deaf                         | boolean             | whether the user is deafened in voice channels. Will throw a 400 if the user is not in a voice channel                                                                                                                                   | DEAFEN_MEMBERS   |
-| channel_id                   | snowflake           | id of channel to move user to (if they are connected to voice)                                                                                                                                                                           | MOVE_MEMBERS     |
-| communication_disabled_until | ?ISO8601 timestamp  | when the user's [timeout](https://support.discord.com/hc/en-us/articles/4413305239191-Time-Out-FAQ) will expire and the user will be able to communicate in the guild again (up to 28 days in the future), set to null to remove timeout | MODERATE_MEMBERS |
+| nick                         | string              | value to set user's nickname to                                                                                                                                                                                                                                                                                                                   | MANAGE_NICKNAMES |
+| roles                        | array of snowflakes | array of role ids the member is assigned                                                                                                                                                                                                                                                                                                         | MANAGE_ROLES     |
+| mute                         | boolean             | whether the user is muted in voice channels. Will throw a 400 error if the user is not in a voice channel                                                                                                                                                                                                                                         | MUTE_MEMBERS     |
+| deaf                         | boolean             | whether the user is deafened in voice channels. Will throw a 400 error if the user is not in a voice channel                                                                                                                                                                                                                                     | DEAFEN_MEMBERS   |
+| channel_id                   | snowflake           | id of channel to move user to (if they are connected to voice)                                                                                                                                                                                                                                                                                   | MOVE_MEMBERS     |
+| communication_disabled_until | ?ISO8601 timestamp  | when the user's [timeout](https://support.discord.com/hc/en-us/articles/4413305239191-Time-Out-FAQ) will expire and the user will be able to communicate in the guild again (up to 28 days in the future), set to null to remove timeout. Will throw a 403 error if the user has the ADMINISTRATOR permission or is the owner of the guild | MODERATE_MEMBERS |
 
 ## Modify Current Member % PATCH /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/members/@me
 
@@ -905,10 +910,10 @@ Create a guild ban, and optionally delete previous messages sent by the banned u
 
 ###### JSON Params
 
-| Field                | Type    | Description                                 |
-| -------------------- | ------- | ------------------------------------------- |
-| delete_message_days? | integer | number of days to delete messages for (0-7) |
-| reason?              | string  | reason for the ban (deprecated)             |
+| Field                | Type    | Description                                 | Default |
+| -------------------- | ------- | ------------------------------------------- | ------- |
+| delete_message_days? | integer | number of days to delete messages for (0-7) | 0       |
+| reason?              | string  | reason for the ban (deprecated)             |         |
 
 ## Remove Guild Ban % DELETE /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/bans/{user.id#DOCS_RESOURCES_USER/user-object}
 
@@ -930,15 +935,15 @@ Create a new [role](#DOCS_TOPICS_PERMISSIONS/role-object) for the guild. Require
 
 ###### JSON Params
 
-| Field         | Type                                     | Description                                                                                                                    | Default                        |
-| ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------ |
-| name          | string                                   | name of the role                                                                                                               | "new role"                     |
-| permissions   | string                                   | bitwise value of the enabled/disabled permissions                                                                              | @everyone permissions in guild |
-| color         | integer                                  | RGB color value                                                                                                                | 0                              |
-| hoist         | boolean                                  | whether the role should be displayed separately in the sidebar                                                                 | false                          |
-| icon          | [image data](#DOCS_REFERENCE/image-data) | the role's icon image (if the guild has the `ROLE_ICONS` feature)                                                              | null                           |
-| unicode_emoji | string                                   | the role's unicode emoji as a [standard emoji](#DOCS_REFERENCE/message-formatting) (if the guild has the `ROLE_ICONS` feature) | null                           |
-| mentionable   | boolean                                  | whether the role should be mentionable                                                                                         | false                          |
+| Field         | Type                                      | Description                                                                                                                    | Default                        |
+| ------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------ |
+| name          | string                                    | name of the role                                                                                                               | "new role"                     |
+| permissions   | string                                    | bitwise value of the enabled/disabled permissions                                                                              | @everyone permissions in guild |
+| color         | integer                                   | RGB color value                                                                                                                | 0                              |
+| hoist         | boolean                                   | whether the role should be displayed separately in the sidebar                                                                 | false                          |
+| icon          | ?[image data](#DOCS_REFERENCE/image-data) | the role's icon image (if the guild has the `ROLE_ICONS` feature)                                                              | null                           |
+| unicode_emoji | ?string                                   | the role's unicode emoji as a [standard emoji](#DOCS_REFERENCE/message-formatting) (if the guild has the `ROLE_ICONS` feature) | null                           |
+| mentionable   | boolean                                   | whether the role should be mentionable                                                                                         | false                          |
 
 ## Modify Guild Role Positions % PATCH /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/roles
 
@@ -1088,7 +1093,7 @@ Returns a PNG image widget for the guild. Requires no permissions or authenticat
 
 ## Get Guild Welcome Screen % GET /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/welcome-screen
 
-Returns the [Welcome Screen](#DOCS_RESOURCES_GUILD/welcome-screen-object) object for the guild. Requires the `MANAGE_GUILD` permission.
+Returns the [Welcome Screen](#DOCS_RESOURCES_GUILD/welcome-screen-object) object for the guild. If the welcome screen is not enabled, the `MANAGE_GUILD` permission is required.
 
 ## Modify Guild Welcome Screen % PATCH /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/welcome-screen
 
@@ -1110,7 +1115,7 @@ Modify the guild's [Welcome Screen](#DOCS_RESOURCES_GUILD/welcome-screen-object)
 
 ## Modify Current User Voice State % PATCH /guilds/{guild.id#DOCS_RESOURCES_GUILD/guild-object}/voice-states/@me
 
-Updates the current user's voice state.
+Updates the current user's voice state. Returns `204 No Content` on success.
 
 ###### JSON Params
 

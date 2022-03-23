@@ -22,7 +22,7 @@ All gateway events in Discord are tagged with an opcode that denotes the payload
 
 ###### Gateway Close Event Codes
 
-In order to prevent broken reconnect loops, you should consider some close codes as a signal to stop reconnnecting. This can be because your token expired, or your identification is invalid. This table explains what the application defined close codes for the gateway are, and which close codes you should not attempt to reconnect.
+In order to prevent broken reconnect loops, you should consider some close codes as a signal to stop reconnecting. This can be because your token expired, or your identification is invalid. This table explains what the application defined close codes for the gateway are, and which close codes you should not attempt to reconnect.
 
 
 | Code | Description           | Explanation                                                                                                                                                                                                                      | Reconnect |
@@ -143,6 +143,7 @@ Along with the HTTP error code, our API can also return more detailed error code
 | 10060  | Unknown sticker                                                                                                               |
 | 10062  | Unknown interaction                                                                                                           |
 | 10063  | Unknown application command                                                                                                   |
+| 10065  | Unknown voice state                                                                                                           |
 | 10066  | Unknown application command permissions                                                                                       |
 | 10067  | Unknown Stage Instance                                                                                                        |
 | 10068  | Unknown Guild Member Verification Form                                                                                        |
@@ -186,12 +187,14 @@ Along with the HTTP error code, our API can also return more detailed error code
 | 40001  | Unauthorized. Provide a valid token and try again                                                                             |
 | 40002  | You need to verify your account in order to perform this action                                                               |
 | 40003  | You are opening direct messages too fast                                                                                      |
+| 40004  | Send messages has been temporarily disabled                                                                                   |
 | 40005  | Request entity too large. Try sending something smaller in size                                                               |
 | 40006  | This feature has been temporarily disabled server-side                                                                        |
 | 40007  | The user is banned from this guild                                                                                            |
 | 40032  | Target user is not connected to voice                                                                                         |
 | 40033  | This message has already been crossposted                                                                                     |
 | 40041  | An application command with that name already exists                                                                          |
+| 40060  | Interaction has already been acknowledged                                                                                     |
 | 50001  | Missing access                                                                                                                |
 | 50002  | Invalid account type                                                                                                          |
 | 50003  | Cannot execute action on a DM channel                                                                                         |
@@ -199,7 +202,7 @@ Along with the HTTP error code, our API can also return more detailed error code
 | 50005  | Cannot edit a message authored by another user                                                                                |
 | 50006  | Cannot send an empty message                                                                                                  |
 | 50007  | Cannot send messages to this user                                                                                             |
-| 50008  | Cannot send messages in a voice channel                                                                                       |
+| 50008  | Cannot send messages in a non-text channel                                                                                    |
 | 50009  | Channel verification level is too high for you to gain access                                                                 |
 | 50010  | OAuth2 application does not have a bot                                                                                        |
 | 50011  | OAuth2 application limit reached                                                                                              |
